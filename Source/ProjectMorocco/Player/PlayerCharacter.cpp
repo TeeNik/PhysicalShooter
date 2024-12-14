@@ -71,6 +71,27 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 
+void APlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InitialCameraLocation = GetFirstPersonCameraComponent()->GetRelativeLocation();
+}
+
+void APlayerCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	const auto* Movement = GetMovementComponent();
+	UE_LOG(LogTemp, Log, TEXT("IsFalling %d %d"), Movement->IsMovingOnGround(), Movement->IsFalling());
+	if (CameraBobbing && !Movement->Velocity.IsNearlyZero() && Movement->IsMovingOnGround())
+	{
+		BobValue += DeltaSeconds * Movement->Velocity.Length() / Movement->GetMaxSpeed();
+		FVector CameraLoc = InitialCameraLocation + FVector(FMath::Cos(BobValue * BobFrequency * 0.5f) * BobAmplitude, 0.0f, FMath::Sin(BobValue * BobFrequency) * BobAmplitude);
+		GetFirstPersonCameraComponent()->SetRelativeLocation(CameraLoc);
+	}
+}
+
 void APlayerCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
@@ -81,11 +102,6 @@ void APlayerCharacter::Move(const FInputActionValue& Value)
 		// add movement 
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
-
-		if (GetMovementComponent()->IsMovingOnGround())
-		{
-			GetFirstPersonCameraComponent().setre
-		}
 	}
 }
 

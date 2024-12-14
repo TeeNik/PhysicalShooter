@@ -30,6 +30,9 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 protected:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
@@ -65,7 +68,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "CameraBob")
+	bool CameraBobbing = true;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "CameraBob")
+	float BobFrequency = 2.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "CameraBob")
+	float BobAmplitude = 20.0f;
+
+private:
 	FVector InitialCameraLocation;
+	float BobValue = 0.0f;
 
 };
 
