@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "PlayerCharacter.generated.h"
 
+class UWeaponComponent;
 class UInputComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
@@ -33,11 +34,10 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 	
-	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+	void StartFire();
+	void StopFire();
 
 	// APawn interface
 	virtual void NotifyControllerChanged() override;
@@ -66,7 +66,13 @@ protected:
 
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LookAction;
+	UInputAction* LookAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* FireAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UWeaponComponent> WeaponComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "CameraBob")
 	bool CameraBobbing = true;

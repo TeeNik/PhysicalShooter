@@ -48,8 +48,5 @@ void UHackingTargetingComponent::TickComponent(float DeltaTime, ELevelTick TickT
 			CurrentTarget = Actor;
 		}
 	}
-
-	UE_LOG(LogTemp, Log, TEXT("CurrentTarget %s"), *GetNameSafe(CurrentTarget.Get()));
-
 }
 

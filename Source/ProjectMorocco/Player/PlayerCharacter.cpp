@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/PawnMovementComponent.h"
+#include "ProjectMorocco/Unit/Components/WeaponComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -33,6 +34,7 @@ APlayerCharacter::APlayerCharacter()
 	Mesh1P->CastShadow = false;
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>("WeaponComponent");
 }
 
 void APlayerCharacter::NotifyControllerChanged()
@@ -63,6 +65,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
+
+		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this , &APlayerCharacter::StartFire);
+		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Completed, this , &APlayerCharacter::StopFire);
 	}
 	else
 	{
@@ -83,7 +88,6 @@ void APlayerCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	const auto* Movement = GetMovementComponent();
-	UE_LOG(LogTemp, Log, TEXT("IsFalling %d %d"), Movement->IsMovingOnGround(), Movement->IsFalling());
 	if (CameraBobbing && !Movement->Velocity.IsNearlyZero() && Movement->IsMovingOnGround())
 	{
 		BobValue += DeltaSeconds * Movement->Velocity.Length() / Movement->GetMaxSpeed();
@@ -116,5 +120,15 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void APlayerCharacter::StartFire()
+{
+	WeaponComponent->FirePressed();
+}
+
+void APlayerCharacter::StopFire()
+{
+	WeaponComponent->FireReleased();
 }
 
