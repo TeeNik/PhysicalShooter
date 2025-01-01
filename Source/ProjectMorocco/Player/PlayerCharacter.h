@@ -38,6 +38,7 @@ protected:
 	void Look(const FInputActionValue& Value);
 	void StartFire();
 	void StopFire();
+	void OpenTerminal();
 
 	// APawn interface
 	virtual void NotifyControllerChanged() override;
@@ -70,6 +71,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* FireAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* TerminalAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWeaponComponent> WeaponComponent;

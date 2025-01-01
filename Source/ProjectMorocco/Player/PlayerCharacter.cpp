@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/PawnMovementComponent.h"
+#include "ProjectMorocco/Hacking/HackingSubsystem.h"
 #include "ProjectMorocco/Unit/Components/WeaponComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -68,6 +69,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this , &APlayerCharacter::StartFire);
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Completed, this , &APlayerCharacter::StopFire);
+		
+		EnhancedInputComponent->BindAction(TerminalAction, ETriggerEvent::Started, this , &APlayerCharacter::OpenTerminal);
 	}
 	else
 	{
@@ -130,5 +133,11 @@ void APlayerCharacter::StartFire()
 void APlayerCharacter::StopFire()
 {
 	WeaponComponent->FireReleased();
+}
+
+void APlayerCharacter::OpenTerminal()
+{
+	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
+	GameInstance->GetSubsystem<UHackingSubsystem>()->OpenTerminal();
 }
 
