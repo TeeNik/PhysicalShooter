@@ -14,5 +14,15 @@ class PROJECTMOROCCO_API UTerminal : public UObject
 public:
 	void Initialize();
 	void ExecuteCommand(const FString& String);
+	const TArray<UClass*>& GetAllCommands() const;
+
+private:
+	void CollectCommands();
+
+	UPROPERTY(Transient)
+	TMap<FString, UClass*> CommandsByName;
+	
+	UPROPERTY(Transient)
+	TArray<UClass*> CommandClasses;
 	
 };

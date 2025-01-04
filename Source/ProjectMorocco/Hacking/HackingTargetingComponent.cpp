@@ -2,8 +2,11 @@
 
 
 #include "HackingTargetingComponent.h"
-
 #include "HackableActorComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "Terminal/Terminal.h"
+#include "Terminal/UI/TerminalWidget.h"
 
 UHackingTargetingComponent::UHackingTargetingComponent()
 {
@@ -24,10 +27,21 @@ bool UHackingTargetingComponent::GetMinMaxOnScreen(FVector& Min, FVector& Max)
 	return false;
 }
 
+void UHackingTargetingComponent::OpenTerminal()
+{
+
+}
+
+void UHackingTargetingComponent::CloseTerminal()
+{
+
+}
 
 void UHackingTargetingComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+
 }
 
 void UHackingTargetingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
