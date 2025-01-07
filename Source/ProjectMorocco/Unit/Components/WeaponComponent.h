@@ -7,6 +7,8 @@
 #include "WeaponComponent.generated.h"
 
 
+class AWeaponActor;
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTMOROCCO_API UWeaponComponent : public UActorComponent
 {
@@ -19,10 +21,12 @@ public:
 	
 protected:
 	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AWeaponActor> WeaponActorClass;
 
-	
+	UPROPERTY(Transient)
+	TObjectPtr<AWeaponActor> WeaponActor = nullptr;
 
 		
 };

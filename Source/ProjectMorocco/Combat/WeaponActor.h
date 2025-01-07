@@ -6,7 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "WeaponActor.generated.h"
 
-UCLASS()
+class AProjectileActor;
+
+UCLASS(Abstract)
 class PROJECTMOROCCO_API AWeaponActor : public AActor
 {
 	GENERATED_BODY()
@@ -23,8 +25,17 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	//UPROPERTY(EditDefaultsOnly, Category = "WeaponActor")
+	UFUNCTION(BlueprintImplementableEvent, DisplayName = "FirePressed")
+	void BP_FirePressed();
+	UFUNCTION(BlueprintImplementableEvent, DisplayName = "FireReleased")
+	void BP_FireReleased();
+	
+	UPROPERTY(EditDefaultsOnly, Category = "WeaponActor")
+	TSubclassOf<AProjectileActor> ProjectileClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponActor")
+	FVector MuzzleOffset;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<USceneComponent> Root;
 

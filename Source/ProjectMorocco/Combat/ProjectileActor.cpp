@@ -2,25 +2,25 @@
 
 
 #include "ProjectileActor.h"
+#include "Components/SphereComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 
-// Sets default values
 AProjectileActor::AProjectileActor()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
+	CollisionComponent->OnComponentHit.AddDynamic(this, &AProjectileActor::OnHit);
+
+	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComponent"));
 }
 
-// Called when the game starts or when spawned
 void AProjectileActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
-void AProjectileActor::Tick(float DeltaTime)
+void AProjectileActor::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,	FVector NormalImpulse, const FHitResult& Hit)
 {
-	Super::Tick(DeltaTime);
+	BP_OnHit(HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
+	Destroy();
 }
-

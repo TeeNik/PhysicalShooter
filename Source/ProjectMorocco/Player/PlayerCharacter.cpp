@@ -11,7 +11,8 @@
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/PawnMovementComponent.h"
-#include "ProjectMorocco/Hacking/HackingSubsystem.h"
+#include "ProjectMorocco/GameMode/HackingGameStateComponent.h"
+#include "ProjectMorocco/GameMode/PMGameStateBase.h"
 #include "ProjectMorocco/Unit/Components/WeaponComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -137,7 +138,6 @@ void APlayerCharacter::StopFire()
 
 void APlayerCharacter::OpenTerminal()
 {
-	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
-	GameInstance->GetSubsystem<UHackingSubsystem>()->OpenTerminal();
+	GetWorld()->GetGameState<APMGameStateBase>()->GetHackingGameStateComponent()->OpenTerminal();
 }
 
