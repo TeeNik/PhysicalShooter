@@ -3,21 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Subsystems/GameInstanceSubsystem.h"
-#include "HackingSubsystem.generated.h"
+#include "Components/ActorComponent.h"
+#include "HackingGameStateComponent.generated.h"
 
-class UTerminalWidget;
-class UTerminal;
+class UTerminal;;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHackingStateChanged, bool, bActive);
 
-UCLASS(Abstract, Blueprintable)
-class PROJECTMOROCCO_API UHackingSubsystem : public UGameInstanceSubsystem
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class PROJECTMOROCCO_API UHackingGameStateComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+public:	
+	UHackingGameStateComponent();
 
 	UFUNCTION(BlueprintCallable)
 	void OpenTerminal();
@@ -29,8 +28,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="Hacking")
 	FOnHackingStateChanged OnHackingStateChanged;
-
+	
 protected:
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(Transient)
