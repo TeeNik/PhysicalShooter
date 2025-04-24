@@ -20,6 +20,7 @@ public:
 	UHackingGameStateComponent* GetHackingGameStateComponent();
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Hacking")
 	TObjectPtr<UHackingGameStateComponent> HackingGameStateComponent;
 	
 };

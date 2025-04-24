@@ -24,15 +24,13 @@ class PROJECTMOROCCO_API UTerminalCommand : public UObject
 	GENERATED_BODY()
 
 public:
-	void Execute();
+	FTerminalCommandResult Execute();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Terminal")
 	FString CommandName;
 	
 protected:
-	virtual void ExecuteImplementation();
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Terminal")
-	void BP_ExecuteImplementation();
-	
+	UFUNCTION(BlueprintNativeEvent, Category = "Terminal")
+	FTerminalCommandResult RunCommandLogic();
+	virtual FTerminalCommandResult RunCommandLogic_Implementation();
 };

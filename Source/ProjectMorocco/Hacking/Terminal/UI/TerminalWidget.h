@@ -5,6 +5,8 @@
 #include "Components/EditableText.h"
 #include "TerminalWidget.generated.h"
 
+class UScrollBox;
+struct FTerminalCommandResult;
 class UTextBlock;
 class UEditableText;
 
@@ -24,5 +26,10 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* ConsoleOutput;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidgetOptional))
+	UScrollBox* TextScroll;
 	
+	UFUNCTION()
+	void OnCommandExecuted(const FTerminalCommandResult& Result);
 };

@@ -3,12 +3,14 @@
 
 #include "TerminalCommand.h"
 
-void UTerminalCommand::Execute()
+FTerminalCommandResult UTerminalCommand::Execute()
 {
-	ExecuteImplementation();
-	BP_ExecuteImplementation();
+	return RunCommandLogic();
 }
 
-void UTerminalCommand::ExecuteImplementation()
+FTerminalCommandResult UTerminalCommand::RunCommandLogic_Implementation()
 {
+	FTerminalCommandResult Result;
+	Result.Output = FString::Printf(TEXT("%s\r\n"), *CommandName);
+	return Result;
 }

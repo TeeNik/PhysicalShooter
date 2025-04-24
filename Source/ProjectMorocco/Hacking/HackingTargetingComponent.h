@@ -23,12 +23,6 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	bool GetMinMaxOnScreen(FVector& Min, FVector& Max);
-
-	UFUNCTION(BlueprintCallable, Category = "Terminal")
-	void OpenTerminal();
-
-	UFUNCTION(BlueprintCallable, Category = "Terminal")
-	void CloseTerminal();
 	
 protected:
 	virtual void BeginPlay() override;

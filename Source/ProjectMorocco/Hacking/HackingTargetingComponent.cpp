@@ -27,21 +27,9 @@ bool UHackingTargetingComponent::GetMinMaxOnScreen(FVector& Min, FVector& Max)
 	return false;
 }
 
-void UHackingTargetingComponent::OpenTerminal()
-{
-
-}
-
-void UHackingTargetingComponent::CloseTerminal()
-{
-
-}
-
 void UHackingTargetingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-
 }
 
 void UHackingTargetingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

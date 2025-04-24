@@ -4,22 +4,39 @@
 #include "Terminal.h"
 #include "TerminalCommand.h"
 #include "AssetRegistry/AssetRegistryModule.h"
+#include "ProjectMorocco/GameMode/HackingGameStateComponent.h"
+#include "ProjectMorocco/GameMode/PMGameStateBase.h"
 
 void UTerminal::Initialize()
 {
-	CollectCommands();
+	//CollectCommands();
+
+	const auto& Commands = GetWorld()->GetGameState<APMGameStateBase>()->GetHackingGameStateComponent()->GetCommandClasses();
+	for (auto& Class : Commands)
+	{
+		if (auto* CDO = Class->GetDefaultObject<UTerminalCommand>())
+		{
+			CommandsByName.Add(CDO->CommandName, Class);
+		}
+	}
 }
 
-void UTerminal::ExecuteCommand(const FString& String)
+FTerminalCommandResult UTerminal::ExecuteCommand(const FString& String)
 {
+	FTerminalCommandResult Result;
 	FString Command = String.TrimStartAndEnd().ToLower();
 	if (auto CommandClass = CommandsByName.FindRef(Command))
 	{
 		if (auto* CommandCDO = CommandClass->GetDefaultObject<UTerminalCommand>())
 		{
-			CommandCDO->Execute();
+			Result = CommandCDO->Execute();
 		}
 	}
+	else
+	{
+		Result.Output = FString::Printf(TEXT("Command not found: %s\r\n"), *Command);	
+	}
+	return Result;
 }
 
 const TArray<UClass*>& UTerminal::GetAllCommands() const

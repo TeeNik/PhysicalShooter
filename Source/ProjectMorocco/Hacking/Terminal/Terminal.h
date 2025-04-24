@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TerminalCommand.h"
 #include "UObject/NoExportTypes.h"
 #include "Terminal.generated.h"
 
@@ -13,7 +14,7 @@ class PROJECTMOROCCO_API UTerminal : public UObject
 
 public:
 	void Initialize();
-	void ExecuteCommand(const FString& String);
+	FTerminalCommandResult ExecuteCommand(const FString& String);
 	const TArray<UClass*>& GetAllCommands() const;
 
 private:

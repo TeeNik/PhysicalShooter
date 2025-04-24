@@ -3,8 +3,10 @@
 
 #include "HackingGameStateComponent.h"
 
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Kismet/GameplayStatics.h"
 #include "ProjectMorocco/Hacking/Terminal/Terminal.h"
+#include "ProjectMorocco/Hacking/Terminal/TerminalCommand.h"
 #include "ProjectMorocco/UI/GameHUD.h"
 
 UHackingGameStateComponent::UHackingGameStateComponent()
@@ -27,7 +29,13 @@ void UHackingGameStateComponent::CloseTerminal()
 
 void UHackingGameStateComponent::ExecuteCommand(const FString& Command)
 {
-	Terminal->ExecuteCommand(Command);
+	FTerminalCommandResult Result = Terminal->ExecuteCommand(Command);
+	OnCommandExecuted.Broadcast(Result);
+}
+
+const TArray<TSubclassOf<UTerminalCommand>>& UHackingGameStateComponent::GetCommandClasses() const
+{
+	return CommandClasses;
 }
 
 void UHackingGameStateComponent::BeginPlay()
